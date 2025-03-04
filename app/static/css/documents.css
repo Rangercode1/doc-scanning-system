@@ -1,0 +1,206 @@
+:root {
+    --red-primary: #E31E24;
+    --red-dark: #cc1b20;
+    --red-light: #ff4d4d;
+    --white: #ffffff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --text-dark: #333333;
+    --text-muted: #666666;
+}
+
+body {
+    background: var(--white);
+}
+
+.documents-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.documents-header {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.documents-title {
+    color: var(--text-dark);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.documents-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.documents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.document-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--gray-200);
+    position: relative;
+}
+
+.document-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: var(--red-primary);
+}
+
+.document-icon {
+    color: var(--red-primary);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.document-title {
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.document-info {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.document-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.document-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.document-matches {
+    background: var(--white);
+    color: var(--red-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--red-primary);
+}
+
+.document-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-document {
+    background: var(--white);
+    color: var(--red-primary);
+    border: 1px solid var(--red-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-document:hover {
+    background: var(--red-primary);
+    color: var(--white);
+}
+
+.btn-document-primary {
+    background: var(--red-primary);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-document-primary:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(227, 30, 36, 0.2);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+}
+
+.empty-state-icon {
+    color: var(--red-primary);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state-text {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.documents-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-button {
+    background: var(--white);
+    color: var(--text-muted);
+    border: 1px solid var(--gray-200);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.filter-button:hover,
+.filter-button.active {
+    background: var(--white);
+    color: var(--red-primary);
+    border-color: var(--red-primary);
+}
+
+@media (max-width: 768px) {
+    .documents-container {
+        padding: 1rem;
+    }
+    
+    .documents-header {
+        padding: 1.5rem;
+    }
+    
+    .documents-title {
+        font-size: 2rem;
+    }
+    
+    .documents-grid {
+        grid-template-columns: 1fr;
+    }
+} 

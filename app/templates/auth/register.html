@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-content">
+        <h1 class="welcome-text">Create Account</h1>
+        <p class="welcome-subtitle">Join our community and start your journey</p>
+        
+        <form method="POST" id="registerForm">
+            <div class="form-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-auth">
+                <span>Create Account</span>
+            </button>
+            
+            <div class="text-center mt-4">
+                <p class="mb-0">Already have an account? <a href="{{ url_for('auth.login') }}" class="auth-link">Sign In</a></p>
+            </div>
+        </form>
+    </div>
+
+    <div class="premium-features">
+        <h2>Features</h2>
+        <div class="feature-item">
+            <i class="fas fa-bolt"></i>
+            <p>Advanced Technology</p>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-cloud"></i>
+            <p>Cloud Storage</p>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-shield-alt"></i>
+            <p>Enterprise Security</p>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-sync"></i>
+            <p>Real-time Sync</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const button = document.querySelector('.btn-auth');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
+    button.disabled = true;
+    
+    // Restore button state if form submission fails
+    setTimeout(function() {
+        if (button.disabled) {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+    }, 5000);
+});
+
+// Password match validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    
+    if (password !== confirmPassword) {
+        this.setCustomValidity('Passwords do not match');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+</script>
+{% endblock %} 

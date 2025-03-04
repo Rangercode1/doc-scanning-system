@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Document - Document Scanner{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css', v=3) }}">
+{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-cloud-upload-alt"></i> Premium Document Upload
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label for="file" class="form-label">
+                                <i class="fas fa-file-upload me-2"></i>Select Your Document
+                            </label>
+                            <input type="file" class="form-control" id="file" name="file" required>
+                            <div class="form-text">Premium formats supported: PDF, DOC, DOCX, TXT, RTF, ODT</div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-gem"></i>
+                            <div>
+                                <strong>Premium Feature:</strong>
+                                <span>This scan will use 1 credit from your premium balance. Current balance: {{ credits }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="features-grid mb-4">
+                            <div class="feature-item">
+                                <i class="fas fa-bolt"></i>
+                                <h6>Instant Scanning</h6>
+                                <p>Advanced OCR technology</p>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <h6>Secure Upload</h6>
+                                <p>End-to-end encryption</p>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-chart-line"></i>
+                                <h6>Smart Analysis</h6>
+                                <p>AI-powered insights</p>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-upload me-2"></i> Upload and Start Premium Scan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-history"></i> Recent Activity
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% if recent_documents %}
+                        <div class="list-group list-group-flush">
+                            {% for doc in recent_documents %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-file-alt"></i> {{ doc.filename }}
+                                        </h6>
+                                        {% if doc.similar_count %}
+                                        <p class="mb-0">
+                                            <small class="text-success">
+                                                <i class="fas fa-check-circle"></i> {{ doc.similar_count }} similar document(s) found
+                                            </small>
+                                        </p>
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-muted ms-3">{{ doc.upload_date }}</small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center my-4">
+                            <i class="fas fa-folder-open text-muted mb-3" style="font-size: 2rem;"></i>
+                            <p class="text-muted mb-0">No recent documents</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-star"></i> Premium Benefits
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <ul class="premium-features">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Advanced document analysis</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Priority processing</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Enhanced accuracy</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>24/7 premium support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

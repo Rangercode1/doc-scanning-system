@@ -1,0 +1,246 @@
+:root {
+    --red-primary: #E31E24;
+    --red-dark: #cc1b20;
+    --red-light: #ff4d4d;
+    --white: #ffffff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --text-dark: #333333;
+    --text-muted: #666666;
+}
+
+.scan-results-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.results-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.results-title {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.results-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.document-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.document-header {
+    background: var(--red-primary);
+    color: var(--white);
+    padding: 1.5rem;
+    position: relative;
+}
+
+.document-header h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.document-body {
+    padding: 1.5rem;
+}
+
+.document-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.info-icon {
+    font-size: 1.5rem;
+    color: var(--red-primary);
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.similarity-section {
+    background: var(--gray-100);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.similarity-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.similarity-icon {
+    font-size: 1.5rem;
+    color: var(--red-primary);
+}
+
+.similarity-title {
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.similarity-score {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.score-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--red-primary);
+}
+
+.score-label {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.progress {
+    height: 12px;
+    background-color: var(--gray-200);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--red-primary), var(--red-dark));
+    transition: width 0.6s ease;
+}
+
+.matched-document {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.matched-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.matched-title {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.matched-meta {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--red-primary);
+    color: var(--white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--red-primary);
+    border: 2px solid var(--red-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--red-primary);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.credits-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--gray-100);
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.credits-icon {
+    color: var(--red-primary);
+}
+
+@media (max-width: 768px) {
+    .scan-results-container {
+        padding: 1rem;
+    }
+    
+    .document-info {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-action {
+        width: 100%;
+        justify-content: center;
+    }
+} 

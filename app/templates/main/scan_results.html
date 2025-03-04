@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Scan Results - Document Scanner{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/scan_results.css', v=1) }}">
+{% endblock %}
+
+{% block content %}
+<div class="scan-results-container">
+    <div class="results-header">
+        <h1 class="results-title">Scan Results</h1>
+        <p class="results-subtitle">View detailed analysis of your document scan</p>
+    </div>
+
+    <div class="document-card">
+        <div class="document-header">
+            <h5><i class="fas fa-file-alt me-2"></i>Source Document</h5>
+        </div>
+        <div class="document-body">
+            <div class="document-info">
+                <div class="info-item">
+                    <i class="fas fa-file info-icon"></i>
+                    <div class="info-content">
+                        <div class="info-label">Filename</div>
+                        <div class="info-value">{{ scan.source_document.filename }}</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar info-icon"></i>
+                    <div class="info-content">
+                        <div class="info-label">Upload Date</div>
+                        <div class="info-value">{{ scan.source_document.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-weight-hanging info-icon"></i>
+                    <div class="info-content">
+                        <div class="info-label">File Size</div>
+                        <div class="info-value">{{ (scan.source_document.content|length / 1024)|round(1) }} KB</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if scan.matched_document_id %}
+    <div class="document-card">
+        <div class="document-header">
+            <h5><i class="fas fa-check-circle me-2"></i>Match Found</h5>
+        </div>
+        <div class="document-body">
+            <div class="similarity-section">
+                <div class="similarity-header">
+                    <i class="fas fa-chart-pie similarity-icon"></i>
+                    <h3 class="similarity-title">Similarity Analysis</h3>
+                </div>
+                <div class="similarity-score">
+                    <div class="score-number">{{ (scan.similarity_score * 100)|round }}%</div>
+                    <div class="score-label">Match Confidence</div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: {{ (scan.similarity_score * 100)|round }}%"
+                         aria-valuenow="{{ (scan.similarity_score * 100)|round }}"
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="matched-document">
+                <div class="matched-header">
+                    <h4 class="matched-title">
+                        <i class="fas fa-file-alt me-2"></i>{{ scan.matched_document.filename }}
+                    </h4>
+                    <div class="matched-meta">
+                        Uploaded by {{ scan.matched_document.owner.username }} on 
+                        {{ scan.matched_document.created_at.strftime('%Y-%m-%d') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="document-card">
+        <div class="document-header">
+            <h5><i class="fas fa-info-circle me-2"></i>Scan Results</h5>
+        </div>
+        <div class="document-body">
+            <div class="alert alert-info">
+                <i class="fas fa-search me-2"></i>No similar documents found in the database.
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="action-buttons">
+        <a href="{{ url_for('main.upload') }}" class="btn-action btn-primary">
+            <i class="fas fa-cloud-upload-alt"></i>
+            Scan Another Document
+            {% if current_user.credits > 0 %}
+            <span class="credits-info">
+                <i class="fas fa-gem credits-icon"></i>
+                {{ current_user.credits }} credits remaining
+            </span>
+            {% endif %}
+        </a>
+        <a href="{{ url_for('main.documents') }}" class="btn-action btn-secondary">
+            <i class="fas fa-folder"></i>
+            View All Documents
+        </a>
+    </div>
+</div>
+{% endblock %} 

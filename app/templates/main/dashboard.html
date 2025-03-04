@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css', v=2) }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Welcome, {{ current_user.username }}!</h1>
+            <p class="dashboard-subtitle">Here's an overview of your document scanning activity</p>
+            
+            <div class="quick-actions">
+                <a href="{{ url_for('main.upload') }}" class="action-button">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    Upload Document
+                </a>
+                <a href="{{ url_for('main.documents') }}" class="action-button">
+                    <i class="fas fa-folder"></i>
+                    View Documents
+                </a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-file-alt stat-icon"></i>
+                <div class="stat-number">{{ stats.total_documents }}</div>
+                <div class="stat-label">Total Documents</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle stat-icon"></i>
+                <div class="stat-number">{{ stats.matches_found }}</div>
+                <div class="stat-label">Matches Found</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock stat-icon"></i>
+                <div class="stat-number">{{ stats.scans_today }}</div>
+                <div class="stat-label">Scans Today</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-gem stat-icon"></i>
+                <div class="stat-number">{{ current_user.credits }}</div>
+                <div class="stat-label">Credits Available</div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i>
+                Recent Activity
+            </h2>
+            <div class="activity-list">
+                {% if recent_activity %}
+                    {% for activity in recent_activity %}
+                    <div class="activity-item">
+                        <i class="fas {{ activity.icon }} activity-icon"></i>
+                        <div class="activity-content">
+                            <div class="activity-title">{{ activity.title }}</div>
+                            <div class="activity-meta">
+                                {{ activity.timestamp }} • {{ activity.description }}
+                            </div>
+                        </div>
+                        <a href="{{ activity.action_url }}" class="activity-action">
+                            {{ activity.action_text }} →
+                        </a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="activity-item">
+                        <i class="fas fa-info-circle activity-icon"></i>
+                        <div class="activity-content">
+                            <div class="activity-title">No recent activity</div>
+                            <div class="activity-meta">
+                                Start by uploading your first document
+                            </div>
+                        </div>
+                        <a href="{{ url_for('main.upload') }}" class="activity-action">
+                            Upload →
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

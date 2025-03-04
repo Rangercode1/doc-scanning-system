@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - Document Scanner{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css', v=1) }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1 class="profile-title">My Profile</h1>
+        <p class="profile-subtitle">Welcome back, {{ current_user.username }}</p>
+    </div>
+
+    <div class="profile-overview">
+        <div class="profile-stat">
+            <i class="fas fa-gem stat-icon"></i>
+            <div class="stat-value">{{ current_user.credits }}</div>
+            <div class="stat-label">Available Credits</div>
+        </div>
+        <div class="profile-stat">
+            <i class="fas fa-file-alt stat-icon"></i>
+            <div class="stat-value">{{ documents|length }}</div>
+            <div class="stat-label">Total Documents</div>
+        </div>
+        <div class="profile-stat">
+            <i class="fas fa-search stat-icon"></i>
+            <div class="stat-value">{{ scans|length }}</div>
+            <div class="stat-label">Total Scans</div>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <h2 class="section-title">
+            <i class="fas fa-history"></i>
+            Recent Activity
+        </h2>
+        <div class="activity-list">
+            {% if scans %}
+                {% for scan in scans %}
+                <div class="activity-item">
+                    <i class="fas {% if scan.matched_document_id %}fa-check-circle{% else %}fa-times-circle{% endif %} activity-icon"></i>
+                    <div class="activity-content">
+                        <div class="activity-title">
+                            {{ scan.source_document.filename }}
+                        </div>
+                        <div class="activity-meta">
+                            {% if scan.matched_document_id %}
+                                Matched with {{ scan.matched_document.filename }} ({{ (scan.similarity_score * 100)|int }}% similarity)
+                            {% else %}
+                                No matches found
+                            {% endif %}
+                            <span class="ms-2">•</span>
+                            <span class="ms-2">{{ scan.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                        </div>
+                    </div>
+                    <div class="activity-action">
+                        <a href="{{ url_for('main.scan_results', scan_id=scan.id) }}" class="btn-action">
+                            <i class="fas fa-eye"></i>
+                            View Results
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted text-center py-4">No recent activity found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <h2 class="section-title">
+            <i class="fas fa-file-alt"></i>
+            Recent Documents
+        </h2>
+        <div class="document-list">
+            {% if documents %}
+                {% for doc in documents %}
+                <div class="document-card">
+                    <i class="fas fa-file-alt document-icon"></i>
+                    <h3 class="document-title">{{ doc.filename }}</h3>
+                    <div class="document-meta">
+                        <span class="document-date">
+                            <i class="fas fa-clock"></i>
+                            {{ doc.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </span>
+                        {% set matches = doc.scans_as_source.filter_by(user_id=current_user.id).all() %}
+                        {% if matches %}
+                        <span class="document-matches">
+                            {{ matches|length }} matches
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted text-center py-4">No documents uploaded yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

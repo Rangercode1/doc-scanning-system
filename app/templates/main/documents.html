@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}My Documents{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/documents.css', v=1) }}">
+{% endblock %}
+
+{% block content %}
+<div class="documents-container">
+    <div class="documents-header">
+        <h1 class="documents-title">My Documents</h1>
+        <p class="documents-subtitle">Manage and organize your scanned documents</p>
+    </div>
+
+    {% if documents.items %}
+    <div class="documents-grid">
+        {% for doc in documents.items %}
+        <div class="document-card">
+            <i class="fas fa-file-alt document-icon"></i>
+            <h3 class="document-title">{{ doc.filename }}</h3>
+            
+            <div class="document-meta">
+                <span class="document-date">
+                    <i class="fas fa-clock"></i> {{ doc.created_at.strftime('%Y-%m-%d %H:%M') }}
+                </span>
+                {% set matches = doc.scans_as_source.filter_by(user_id=current_user.id).all() %}
+                {% if matches %}
+                <span class="document-matches">
+                    {{ matches|length }} matches
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="document-actions">
+                <a href="{{ url_for('main.view_document', document_id=doc.id) }}" class="btn-document">
+                    <i class="fas fa-eye me-1"></i> View
+                </a>
+                <a href="{{ url_for('main.download_document', document_id=doc.id) }}" class="btn-document">
+                    <i class="fas fa-download me-1"></i> Download
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if documents.pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% for page in documents.iter_pages() %}
+                {% if page %}
+                    <li class="page-item {% if page == documents.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('main.documents', page=page) }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-folder-open empty-state-icon"></i>
+        <p class="empty-state-text">No documents found. Start by uploading your first document.</p>
+        <a href="{{ url_for('main.upload') }}" class="btn-document-primary">
+            <i class="fas fa-cloud-upload-alt"></i> Upload Document
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
